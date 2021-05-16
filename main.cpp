@@ -1,5 +1,6 @@
 #include "imgui.h"
 #include "imgui-SFML.h"
+#include <stdio.h>
 #include <SFML/Graphics.hpp>
 
 #define GRID_WIDTH 500
@@ -30,6 +31,8 @@ void DrawGrid(sf::RenderWindow &window);
 void CalculateAntPath();
 void DrawAnt(sf::RenderWindow &window);
 
+void ShowStartDialog(sf::RenderWindow &window);
+
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(800, 600), "Langton's Ant");
@@ -37,6 +40,10 @@ int main()
     lant.orientation = 180;
     lant.pos.x = 250;
     lant.pos.y = 250;
+
+    ImGui::SFML::Init(window);
+
+    ShowStartDialog(window);
 
     view.setCenter(lant.pos.x*SQUARE_SIZE,lant.pos.y*SQUARE_SIZE);
     window.setView(view);
@@ -182,9 +189,38 @@ void DrawAnt(sf::RenderWindow &window)
     window.draw(ant);
 }
 
+void ShowStartDialog(sf::RenderWindow &window)
+{
+    bool start_click = false;
+    bool exit_click = false;
+    sf::Clock deltaClock;
+    while(window.isOpen())
+    {
 
+        window.clear();
+        sf::Event event;
+        while(window.pollEvent(event))
+        {
+            ImGui::SFML::ProcessEvent(event);
+        }
 
+        ImGui::SFML::Update(window, deltaClock.restart());
 
+        ImGui::Begin("");
+        if(ImGui::Button("Start"))
+            start_click = true;
+        if(ImGui::Button("Exit"))
+            exit_click = true;
+
+        ImGui::End();
+        ImGui::SFML::Render(window);
+        window.display();
+        if(start_click)
+            return;
+        if(exit_click)
+            exit(1);
+    }
+}
 
 
 
