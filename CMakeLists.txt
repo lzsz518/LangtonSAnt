@@ -26,6 +26,6 @@ find_package(SFML 2.5 COMPONENTS audio graphics window system REQUIRED)
 IF(CMAKE_SYSTEM_NAME MATCHES "Linux")
         target_link_libraries(LangtonSAnt sfml-audio sfml-graphics sfml-window sfml-system glfw GL)
 ELSEIF (CMAKE_SYSTEM_NAME MATCHES "Windows")
-        target_link_libraries(LangtonSAnt sfml-audio sfml-graphics sfml-window sfml-system glfw GL)
+        target_link_libraries(LangtonSAnt sfml-audio sfml-graphics sfml-window sfml-system glfw opengl32)
 ENDIF(CMAKE_SYSTEM_NAME MATCHES "Linux")
 
