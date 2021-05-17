@@ -206,7 +206,7 @@ void ShowStartDialog(sf::RenderWindow &window)
 
         ImGui::SFML::Update(window, deltaClock.restart());
 
-        ImGui::Begin("");
+        ImGui::Begin(" ");
         if(ImGui::Button("Start"))
             start_click = true;
         if(ImGui::Button("Exit"))

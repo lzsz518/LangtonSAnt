@@ -23,4 +23,9 @@ find_package(SFML 2.5 COMPONENTS audio graphics window system REQUIRED)
 #find_package(ImGui-SFML CONFIG REQUIRED)
 
 #target_link_libraries(LangtonSAnt sfml-audio sfml-graphics sfml-window sfml-system ImGui-SFML::ImGui-SFML)
-target_link_libraries(LangtonSAnt sfml-audio sfml-graphics sfml-window sfml-system glfw opengl32)
+IF(CMAKE_SYSTEM_NAME MATCHES "Linux")
+        target_link_libraries(LangtonSAnt sfml-audio sfml-graphics sfml-window sfml-system glfw GL)
+ELSEIF (CMAKE_SYSTEM_NAME MATCHES "Windows")
+        target_link_libraries(LangtonSAnt sfml-audio sfml-graphics sfml-window sfml-system glfw GL)
+ENDIF(CMAKE_SYSTEM_NAME MATCHES "Linux")
+
