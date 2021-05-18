@@ -194,10 +194,10 @@ void ShowStartDialog(sf::RenderWindow &window)
     bool start_click = false;
     bool exit_click = false;
     sf::Clock deltaClock;
+    window.setFramerateLimit(60);
     while(window.isOpen())
     {
 
-        window.clear();
         sf::Event event;
         while(window.pollEvent(event))
         {
@@ -206,19 +206,29 @@ void ShowStartDialog(sf::RenderWindow &window)
 
         ImGui::SFML::Update(window, deltaClock.restart());
 
+        ImGui::SetNextWindowSize(ImVec2(100,100));
         ImGui::Begin(" ");
-        if(ImGui::Button("Start"))
+        if(ImGui::Button("Start",ImVec2(80,20)))
             start_click = true;
-        if(ImGui::Button("Exit"))
+        if(ImGui::Button("Exit",ImVec2(80,20)))
             exit_click = true;
-
         ImGui::End();
+
+        window.clear();
         ImGui::SFML::Render(window);
+
         window.display();
         if(start_click)
+        {
+            window.setFramerateLimit(0);
             return;
+        }
+
         if(exit_click)
+        {
+            ImGui::SFML::Shutdown();
             exit(1);
+        }
     }
 }
 
