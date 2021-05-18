@@ -41,9 +41,14 @@ int main()
     lant.pos.x = 250;
     lant.pos.y = 250;
 
+    char step_count_str[64] = {0};
+    uint64_t step_count = 0;
+
     ImGui::SFML::Init(window);
 
     ShowStartDialog(window);
+
+    sf::Clock deltaClock;
 
     view.setCenter(lant.pos.x*SQUARE_SIZE,lant.pos.y*SQUARE_SIZE);
     window.setView(view);
@@ -53,13 +58,25 @@ int main()
         sf::Event event;
         while (window.pollEvent(event))
         {
+            ImGui::SFML::ProcessEvent(event);
+
             if (event.type == sf::Event::Closed)
                 window.close();
         }
         window.clear(sf::Color::Black);
+        ++step_count;
         DrawGrid(window);
         DrawAnt(window);
         CalculateAntPath();
+
+        ImGui::SFML::Update(window, deltaClock.restart());
+        ImGui::Begin(" ");
+        memset(step_count_str,0,64);
+        itoa(step_count,step_count_str,10);
+        ImGui::Text("%s",step_count_str);
+        ImGui::End();
+
+        ImGui::SFML::Render(window);
 //        sf::sleep(sf::seconds(0.1f));
         window.display();
     }
