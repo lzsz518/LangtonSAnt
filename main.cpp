@@ -12,10 +12,18 @@ int grid_status[GRID_HEIGHT][GRID_WIDTH];
 
 //sf::RectangleShape grid[GRID_HEIGHT][GRID_WIDTH];
 sf::Sprite grid[GRID_HEIGHT][GRID_WIDTH];
+sf::Sprite sprite_ant;
+
 sf::Image img_white;
 sf::Image img_black;
+
 sf::Texture tex_white;
 sf::Texture tex_black;
+sf::Texture texture_ant_0;
+sf::Texture texture_ant_90;
+sf::Texture texture_ant_180;
+sf::Texture texture_ant_270;
+
 
 typedef struct LAnt
 {
@@ -24,6 +32,7 @@ typedef struct LAnt
 }LAnt;
 
 LAnt lant;
+
 
 
 void InitializeGrid();
@@ -37,6 +46,15 @@ int main()
 {
     sf::RenderWindow window(sf::VideoMode(800, 600), "Langton's Ant");
     sf::View view(sf::FloatRect(0,0,window.getSize().x,window.getSize().y));
+
+    texture_ant_0.loadFromFile("./ant_0.png");
+    texture_ant_90.loadFromFile("./ant_90.png");
+    texture_ant_180.loadFromFile("./ant_180.png");
+    texture_ant_270.loadFromFile("./ant_270.png");
+
+    sprite_ant.setTexture(texture_ant_180);
+    sprite_ant.setScale(0.015,0.015);
+
     lant.orientation = 180;
     lant.pos.x = 250;
     lant.pos.y = 250;
@@ -101,7 +119,7 @@ int main()
         ImGui::End();
 
         ImGui::SFML::Render(window);
-//        sf::sleep(sf::seconds(0.1f));
+        sf::sleep(sf::seconds(0.1f));
         window.display();
     }
     ImGui::SFML::Shutdown();
@@ -224,10 +242,28 @@ void CalculateAntPath()
 
 void DrawAnt(sf::RenderWindow &window)
 {
-    sf::CircleShape ant(3.f);
-    ant.setFillColor(sf::Color::Red);
-    ant.setPosition(lant.pos.x*SQUARE_SIZE+OFFSET,lant.pos.y*SQUARE_SIZE+OFFSET);
-    window.draw(ant);
+//    sf::CircleShape ant(3.f);
+//    ant.setFillColor(sf::Color::Red);
+//    ant.setPosition(lant.pos.x*SQUARE_SIZE+OFFSET,lant.pos.y*SQUARE_SIZE+OFFSET);
+    switch(lant.orientation)
+    {
+    case 0:
+        sprite_ant.setTexture(texture_ant_0);
+        break;
+    case 90:
+        sprite_ant.setTexture(texture_ant_90);
+        break;
+    case 180:
+        sprite_ant.setTexture(texture_ant_180);
+        break;
+     case 270:
+        sprite_ant.setTexture(texture_ant_270);
+        break;
+
+    }
+
+    sprite_ant.setPosition(lant.pos.x*SQUARE_SIZE+OFFSET,lant.pos.y*SQUARE_SIZE+OFFSET);
+    window.draw(sprite_ant);
 }
 
 void ShowStartDialog(sf::RenderWindow &window)
