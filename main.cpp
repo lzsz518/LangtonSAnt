@@ -62,6 +62,30 @@ int main()
 
             if (event.type == sf::Event::Closed)
                 window.close();
+
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+            {
+                view.move(-10.f,0.f);
+                window.setView(view);
+            }
+
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+            {
+                view.move(10.f,0.f);
+                window.setView(view);
+            }
+
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+            {
+                view.move(0.f,-10.f);
+                window.setView(view);
+            }
+
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+            {
+                view.move(0.f,10.f);
+                window.setView(view);
+            }
         }
         window.clear(sf::Color::Black);
         ++step_count;
